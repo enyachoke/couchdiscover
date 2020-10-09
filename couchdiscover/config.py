@@ -17,7 +17,7 @@ DATE_FORMAT = '%m/%d/%Y %I:%M:%S %p'
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG').upper()
 
 DEFAULT_CREDS = ('admin', 'secret')
-DEFAULT_PORTS = (5984, 5986)
+DEFAULT_PORTS = (5984, 5984)
 
 DEV_KUBECONFIG_PATH = "~/.kube/config"
 DEV_HOST = 'couchdb-0.couchdb.default.svc.cluster.local'

@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 class CouchServer(util.ReprMixin):
     """Encapsulates the logic for interacting with CouchDB 2.0 Server"""
-    _public_attrs = ('url', 'type', 'up')
+    _public_attrs = ('url', 'type', 'up', 'host')
 
     def __init__(self, proto='http', host='localhost',
                  port=config.DEFAULT_PORTS[0], creds=config.DEFAULT_CREDS):
@@ -37,6 +37,7 @@ class CouchServer(util.ReprMixin):
         self._session = self._get_session()
         self._wrapped = self._couch
         self.type = self._detect_type()
+        self.host = host
 
     def _get_url(self):
         args = self._args
@@ -57,12 +58,13 @@ class CouchServer(util.ReprMixin):
         return sess
 
     def _detect_type(self):
-        all_dbs = self.all_dbs()
-        if isinstance(all_dbs, list):
-            if '_nodes' in all_dbs:
-                return 'admin'
-            else:
-                return 'data'
+        # all_dbs = self.all_dbs()
+        # if isinstance(all_dbs, list):
+        #     if '_nodes' in all_dbs:
+        #         return 'admin'
+        #     else:
+        #         return 'data'
+        return 'data'
 
     def _build_url(self, uri=''):
         if uri:
@@ -85,6 +87,8 @@ class CouchServer(util.ReprMixin):
             return key in all_dbs
 
     def __getitem__(self, key):
+        if(key == '_nodes'):
+            return self.nodes()
         return self._couch[key]
 
     def __delitem__(self, key):
@@ -118,6 +122,10 @@ class CouchServer(util.ReprMixin):
     def all_dbs(self):
         """Returns a generator iterating all DB objects."""
         return self.request(uri='/_all_dbs')
+
+    def nodes(self):
+        """Returns a generator iterating all DB objects."""
+        return self.request(uri='/_node/'+self.host+'/_nodes')
 
     def request(self, verb='get', uri='', params=None, data=None,
                 headers=None, files=None):
@@ -220,10 +228,11 @@ class CouchInitClient:
         return servers
 
     def _server_for(self, db):
-        if db in ADMIN_ONLY_DBS:
-            key = 'admin'
-        else:
-            key = 'data'
+        # if db in ADMIN_ONLY_DBS:
+        #     key = 'admin'
+        # else:
+        #     key = 'data'
+        key = 'data'
         return self._servers[key]
 
     def call(self, server, method, *args, **kwargs):
@@ -235,7 +244,10 @@ class CouchInitClient:
     def request(self, server='data', verb='get', uri=None, params=None,
                 data=None, headers=None, files=None):
         """Wraps the `CouchServer.request`, dispatching by `server`."""
+        print(uri)
         server = self._servers.get(server)
+        if uri == '/_nodes':
+            url = '/_node/'+ server.host + uri
         return server.request(verb, uri, params, data, headers, files)
 
     def _build_cluster_setup_payload(

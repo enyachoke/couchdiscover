@@ -17,4 +17,4 @@ RUN     pip3 install couchdiscover==$COUCHDISCOVER_VERSION
 ENV     ENVIRONMENT=production
 ENV     LOG_LEVEL=DEBUG
 
-CMD         ["couchdiscover"]
+CMD ["couchdiscover"]

@@ -21,10 +21,10 @@ from .exceptions import (
 )
 
 __title__ = 'couchdiscover'
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 __author__ = "Joe Black <me@joeblack.nyc>"
 __license__ = 'Apache 2.0'
-__copyright__ = 'Copyright 2017 Joe Black'
+__copyright__ = 'Copyright 2020 Emmanuel Nyachoke'
 
 
 util.setup_logging(

@@ -12,16 +12,16 @@ with open('README.md', 'rt') as fd:
     readme = fd.read()
 
 setup(
-    name='couchdiscover',
+    name='couchdiscover3',
     version=version,
-    description='Autodiscovery & Clustering for CouchDB 2.0 with Kubernetes',
+    description='Autodiscovery & Clustering for CouchDB 3.0 with Kubernetes',
     long_description=readme,
     keywords = ['couchdb', 'kubernetes', 'cluster'],
-    author='Joe Black',
-    author_email='joeblack949@gmail.com',
-    url='https://github.com/joeblackwaslike/couchdiscover',
+    author='Emmanuel Nyachoke',
+    author_email='achachiez@gmail.com',
+    url='https://github.com/enyachoke/couchdiscover',
     download_url=(
-        'https://github.com/joeblackwaslike/couchdiscover/tarball/%s' %
+        'https://github.com/enyachoke/couchdiscover/tarball/%s' %
         version
     ),
     license='Apache 2.0',
